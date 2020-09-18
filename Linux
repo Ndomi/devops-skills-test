@@ -1,0 +1,48 @@
+* What is the command to list the contents of a direcory, line by line and ordered by size ascending in human readable format?
+    $ ls -lrthaSR
+
+* How would you add a DNS server to a network interface in Linux?
+    There are 2 ways:
+        The first way(Permanently adding DNS)
+            * vim /etc/sysconfig/network-scripts/ifcfg-eth0
+                - Add the following(This is for multiple DNS entries):
+                    + DNS0={{IP Address}} or {{hostname}}
+                    + DNS1={{IP Address}} or {{hostname}}
+                    + DNS2={{IP Address}} or {{hostname}}
+
+            * Restart the network:
+                - Issue the following command(User should have the relevant permissions)
+                    $ sudo systemctl restart network.service
+
+        The second way(This is temporary). This will clear after reboot.
+            * vim /etc/resolv.conf
+                - Add the following:
+                    + nameserver {{IP Address}} or {{hostname}}
+
+* If the DNS server you've just added is not reachable, how can you get any particular hostname to resolve locally?
+    Edit the below:
+        $ sudo vim /etc/hosts
+            + {{IP address}} DNS/hostname
+
+            i.e 212.27.32.177 server1.example.ndomi
+
+* How would you check for SELinux related errors?
+    - You can see any SELinux related issues in "/var/log/audit/audit.log"
+        * This is without any additional tools.
+        * This is a little time consuming
+
+    - Install the following tool/s(User should have the relevant permissions):
+        * setroubleshoot setools
+            $ sudo yum install setroubleshoot setools -y
+
+        * Issue the following command:
+            $ sudo sealert -a /var/log/audit/audit.log
+
+* Write the commands to add 30GB disk space to a logical volume named "docker" that belongs to a logical group named "docker-group".
+    $ pvcreate /dev/vdb1
+    $ vgcreate docker-group /dev/vdb1
+    $ lvcreate -L 30G -n docker docker-group
+    $ mkfs.ext4 /dev/docker-group/docker
+    $ vim /etc/fstab
+        /dev/docker-group/docker        /mnt    ext4    defaults        0 0
+    mount -a
