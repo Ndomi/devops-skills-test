@@ -46,3 +46,7 @@
     $ vim /etc/fstab
         /dev/docker-group/docker        /mnt    ext4    defaults        0 0
     mount -a
+
+
+    - If the question meant that I should extend by 30G:
+        $ lvextend -L +30G /dev/docker-group/docker
