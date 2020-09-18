@@ -1,0 +1,21 @@
+* How would you ensure any change made to this Dockerfile is source controlled, approved, tested and deployed.
+    1. Make sure the Dockerfile is added source code management system, like GitLab/GitHub/SVN etc
+    2. Take the copy of the Dockerfile on to your local development machine. Do this by checking out a working copy from
+       the mainline
+    3. Take the working copy and do whatever changes needs to be done to complete the task.
+    4. Write unit test. This depends on what needs to be tested. If the tests succeed, move to step 5
+    5. Push it back to source code management system
+       5.1 To a repository that needs at least one approval. In General,
+            all repos should require review and approval.
+    6. Once the Changes have been Reviewed and approved.
+    7. Let the Dockerfile deploy
+        7.1 This can be done by Jenkins, which will re-tag the image(According to the re-tagging strategy)
+        7.2 The deployment can be done using a Jenkinsfile(Jenkins pipelines).
+            7.2.1 Tests can also be done in Jenkinsfile pipeline, and deploy the newly created image. If this is chosen,
+                  then step 4 CAN be skipped.
+        7.3. Jenkins will poll the Repo for changes, and deploy accordingly.
+
+
+    NOTE: It is important to push new images to a Docker Repo(like dockerHub).
+
+
